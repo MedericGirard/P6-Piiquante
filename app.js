@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
+const helmet = require('helmet');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -19,6 +23,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
